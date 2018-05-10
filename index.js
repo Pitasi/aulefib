@@ -32,7 +32,7 @@ let updateCache = () => {
     },
     (err, res) => {
       if (err) return console.error(err);
-      cache = res.body.replace('</body></html>', injected + '</body></html>');
+      cache = res.body.replace('</BODY></HTML>', injected + '</BODY></HTML>');
       console.log('Cache updated');
     }
   )
