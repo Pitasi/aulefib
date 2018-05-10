@@ -32,7 +32,7 @@ let updateCache = () => {
     },
     (err, res) => {
       if (err) return console.error(err);
-      cache = res.replace('</body></html>', injected + '</body></html>');
+      cache = res.body.replace('</body></html>', injected + '</body></html>');
       console.log('Cache updated');
     }
   )
@@ -41,7 +41,7 @@ updateCache();
 setInterval(updateCache, 1000*60*10)
 
 app.get('/', function (req, res) {
-  res.send(cache.body);
+  res.send(cache);
 });
 
 app.listen(8080, function () {
