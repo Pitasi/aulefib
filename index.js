@@ -2,6 +2,28 @@ const express = require('express')
 const request = require('request')
 const app = express()
 
+const injected = ```
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(document).scroll(function (e) {            
+            $('tbody tr:gt(1) th').css({
+                position: 'relative',
+                left: $(document).scrollLeft(),
+            });
+
+            $('tbody tr:nth-child(2) td, tbody tr:nth-child(1) th').css({
+                position: 'relative',
+                top: $(document).scrollTop(),
+            });
+        });
+    });
+</script>
+<style>
+    html, body { margin: 0; }
+</style>
+```
+
 let cache = 'Updating cache...'
 let updateCache = () => {
   request.post({
@@ -10,13 +32,13 @@ let updateCache = () => {
     },
     (err, res) => {
       if (err) return console.error(err);
-      cache = res;
-      console.log('Cache update');
+      cache = res.replace('</body></html>', injected + '</body></html>');
+      console.log('Cache updated');
     }
   )
 }
 updateCache();
-setInterval(updateCache, 1000*60*30)
+setInterval(updateCache, 1000*60*10)
 
 app.get('/', function (req, res) {
   res.send(cache.body);
