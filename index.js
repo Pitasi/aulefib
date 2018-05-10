@@ -2,7 +2,7 @@ const express = require('express')
 const request = require('request')
 const app = express()
 
-const injected = ```
+const injected = `
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -22,7 +22,7 @@ const injected = ```
 <style>
     html, body { margin: 0; }
 </style>
-```
+`
 
 let cache = 'Updating cache...'
 let updateCache = () => {
